@@ -42,7 +42,6 @@ package away3d.materials
 	public class BitmapFileMaterial extends BitmapMaterial
 	{
 		private var _loader:Loader;
-		private var _dispatcher:Sprite;
 		private var _uri:String;
 		
 		/**
@@ -71,7 +70,6 @@ package away3d.materials
 			if(url.charCodeAt(url.length-1) < 49)
 				url = url.substring(0, url.length-1);
 			
-			_dispatcher = new Sprite();
 			_loader = new Loader();
 			_loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, onProgress);
@@ -93,22 +91,22 @@ package away3d.materials
 		
 		private function onError(e:IOErrorEvent):void
 		{
-			if(_dispatcher.hasEventListener(LoaderEvent.LOAD_ERROR))
-				_dispatcher.dispatchEvent(new LoaderEvent(LoaderEvent.LOAD_ERROR, _uri, e.text ));
+			if(hasEventListener(LoaderEvent.LOAD_ERROR))
+				dispatchEvent(new LoaderEvent(LoaderEvent.LOAD_ERROR, _uri, e.text ));
 		}
 		
 		private function onProgress(e:ProgressEvent):void
 		{
-			if(_dispatcher.hasEventListener(ProgressEvent.PROGRESS))
-				_dispatcher.dispatchEvent(e);
+			if(hasEventListener(ProgressEvent.PROGRESS))
+				dispatchEvent(e);
 		}
 		
 		private function onComplete(e:Event):void
 		{
 			bitmapData = Bitmap(_loader.content).bitmapData;
 			
-			if(_dispatcher.hasEventListener(LoaderEvent.RESOURCE_COMPLETE))
-				_dispatcher.dispatchEvent(new LoaderEvent(LoaderEvent.RESOURCE_COMPLETE, _uri));
+			if(hasEventListener(LoaderEvent.RESOURCE_COMPLETE))
+				dispatchEvent(new LoaderEvent(LoaderEvent.RESOURCE_COMPLETE, _uri));
 		}
 	}
 }
